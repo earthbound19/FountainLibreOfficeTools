@@ -1,0 +1,220 @@
+; ==== BEGIN CUSTOM BATCH ADDITIONS (fountain to screenplay ====
+; Batch to convert any Fountain document into industry-standard Screenplay format, in LibreOffice 4.x (possibly 3.x or earlier), or possibly OpenOffice (untested, and possible compatible versions unknown). For use with the Alternative Find & Replace extension AltSearch.oxt (which extension is compatible, at this writing, with both LibreOffice and OpenOffice. This batch also cleans up extraneous whitespace and corrects common screenplay syntax irregularities.
+; V 1.2 08/12/2014 04:35:00 PM -RAH
+
+[Name] Text [All]  Fountain to screenplay step 1
+
+; STRIP EXTRA WHITESPACE
+		; Replace all newlines \n with hard or carriage returns \p.
+	[Find]\n
+	[Replace]\p
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Merge any multiple sequential empty paragraphs (which by now should all be demarked by carriage returns) into one empty paragraph (per each); each group of four carriage returns (double-blank lines) to three (single blank line)
+		; Carriage returns are preferred becuase LO ends styles where there's a new carriage return.
+	[Find]^$\p*
+	[Replace]\p
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Replace all tabs or series of tabs with a space (per each tab or series of tabs).
+	[Find][\x9]{1,}
+	[Replace] 
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Strip all leading whitespace (also deletes spaces from empty lines--if any still remain)
+	[Find]^\s*
+	[Replace]
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Strip all trailing whitespace (also deletes spaces from empty lines)
+	[Find]\s*$
+	[Replace]
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Eliminate all double spaces
+		; hex 20 is non-breaking space
+	[Find][\x20]{2,}
+	[Replace] 
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+
+; END STRIPPING EXTRA WHITE SPACE
+
+; FIX ELLIPSES, DASHES, AND (V.O.) / (O.S.) EXTENSIONS
+	; Convert all ellipses variants such as "text.. text" and "text ...text" etc. including any use of the elipses glyph … (which glyph was a bad idea and confusing to read, in my opinion).
+	; Will convert all appearances of these characters together in groups of three or more, in any order, into regularized "text...text"
+	; Deal with the ellipses glyph first
+		; NOTE: This relies on not having any double-spaces in the document, else it will replace them with ellipses! Ditto for dashes fixup function below!
+	[Find]…
+	[Replace]...
+	[Parameters]   MsgOff
+	[Command] ReplaceAll
+	[Find][ \.]{3,}
+	[Replace]...
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+	; Find all em-dashes and replace them with double-dashes, as per screen format expectation/tradition
+		; hex 96 is En dash , 97 is Em dash, supposedly, but that's doing no good for me.
+		; Em-dash:
+	[Find]—
+	[Replace]--
+	[Parameters]   MsgOff
+	[Command] ReplaceAll
+		; En-dash:
+	[Find]–
+	[Replace]--
+	[Parameters]   MsgOff
+	[Command] ReplaceAll
+		; Convert all dashes variants such as "text - text," "text --text," "text -- text," etc.; all appearances of these characters in a series of two or more, in any order into regularized "text--text"
+		; Do also with [ \–], or replace that earlier? Is that an en-dash?! Yes, I think it is! . . . this is en em-dash: —
+	[Find][ \-]{2,}
+	[Replace]--
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+	; Regularize all variants of (O.S.) and (V.O.) (such as (os) and (V. O.) etc to just (V.O.). Why? They both mean the same thing, and (V.O.) is more practical.
+		; NOTES ON THE FOLLOWING: found in Alt.SearchReplace help that you can search by hexadecimal and/or ASCII character code!--which allows a workaround for the seeming fact that at least in LibreOffice 4.0.2.2, the functionality to search for parenthesis via regular expression does not work. If you instead give the hex or acsii codes for open and close parenthesis in regular expressions, like this: [\x28] OR [\x29] -- IT WORKS! I used http://www.asciitable.com/
+		; hex find for ( and ) are [\x28] and [\x29]; ASCII are [\#40] and [\#41]
+	[Find][\#40][VOS\. ]{3,}[\#41]
+	[Replace](V.O.)
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+; END FIXING ELLIPSES, DASHES, AND (V.O.) / (O.S.) EXTENSIONS
+
+; CONVERT FOUNTAIN TO SCREENPLAY VIA DOCUMENT STYLES
+		; * Format scene slugs:
+	[Find](^INT\..*$|^EXT\..*$)
+	[Replace]\P{Scene}\1
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+		; * Apply transition style to all text in ALL CAPS on one line ending with a colon:
+	[Find](^.*:$)
+	[Replace]\P{Transition}\1
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+		; * Apply screenplay center style to all text on lines surrounded with > angle brackets <.
+			; Note: Because the replace command only replaces for the (.*) group, and because the several \s{0,} regexes match zero or more white space characters (incidentally, that's a way to make any character or group in a regular expression optional: [chars]{,0}), this will elimenate all whitespace before and after the angle brackets but not the text, and not any whitespace within the text. Although whitespace shouldn't need to be eliminated if the prior whitespace fixups worked properly:
+	[Find]^\s{0,}>\s{0,}(.*)\s{0,}<\s{0,}$
+	[Replace]\P{Centered}\1
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+		; * Format character slugs.
+		; NOTE: The character slug is the *only* element which is immediately followed by other elements (on the next newline). All the others have a blank line after them. Therefore, everything which folows this pattern: [blank line, filled line which doesn't start with a parenthesis (as in a parenthetical), filled line] is in that middle of those commas a character slug. This burden was ridiculously long in the bearing to discover :( 08/08/2014 07:04:45 PM -RAH
+		; ALSO NOTE: the [^\(] part of that means "not (an escaped) parenthesis" (I couldn't seem to get the regex to ignore to check for a not close-parenthesis on a previous line). Also, it wouldn't work as expected with (.*) instead of (.{1,}) .
+		; ALSO NOTE: We can format this element first, because while this regext will erroneously format all the dialogue and/or parentheticals (after the charslugs) as character slugs, the later parenthetical/dialogue formatting regexes will correct that.
+	[Find]\p([^a-z]{1,})\p(^.)
+	[Replace]\p\P{Character}\1\p\2
+	[Parameters]   MsgOff  Regular  MatchCase
+	[Command] ReplaceAll
+
+		; Format parentheticals (after character slugs? No, I think this is anywhere they appear).
+		; NOTE: "SOMETHING TRICKSY" (see later note) won't work here, something to do with the logic flow I haven't sorted out.
+		; But this hack'll do it.
+		; First tag the line to be formatted (else the multi-paragraph/line search re-format other already-formatted paragraphs).
+	[Find]\p(\(.*\))
+	[Replace]\p~~_~~\1
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Then format by swapping out the tag with, oh, yes, by using the tricky trick. Just in a second step is all.
+	[Find]~~_~~\(
+	[Replace]\P{Parenthetical}(
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+
+		; * Format dialogue after character slugs.
+		; First, prefix the lines that need formatting with a prefix marker.
+	[Find][:::ParaStyleName=Character::](\p)
+	[Replace]\2\p~~_~~
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+		; Then search-replace that format mark with a style change.
+	[Find]~~_~~
+	[Replace]\2\P{Dialogue}
+			; See the later comment which is labeled "COMMENT ON SOMETHING TRICKSY!"
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+
+		; Format dialog after parentheticals.
+	; deprecated? : [Find]^(\(.*\))\p(^.)
+	[Find](^\(.*\)$)
+	; DEPRECATED attempts to be more selective, but no, I'm just going to use a regex that assumes any text on one line enclosed in parenthesis is intended to be a parenthetical.
+	; (^\([^A-Z.]{1,}\)$)
+	; (^\([^A-Z.]{1,}\)$\p)
+	[Replace]\1~~_~~
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+		; Then format it by replacing the mark.
+	[Find]~~_~~\p
+	[Replace]\p\P{Dialogue}
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+		; COMMENT ON SOMETHING TRICKSY (except I think it may outdated?) ! :
+		; A trick I devised there (and which I use throughout this batch) is to replace a group \2 that doesn't exist, to erase group \1 and then apply a style. Otherwise it applies the style but keeps the contents, here, ~~_~~, which I don't want. In other words, by replacing with nonexistent group \2, it erases group \1.
+	; [Parameters]   MsgOff  Regular  MatchCase  
+	; [Command] ReplaceAll
+
+		; * Format everything leftover (in the "Default Style"), and all empty lines, as action. Inelegant perhaps, but 1) I'm not going to undergo the time-consuming exertion of coming up with a regex that finds all the proper screenplay action lines in this setting when 2) This approach in fact works:
+			; Change all default styles to action:
+	[Find][:::ParaStyleName=Default Style::]
+	[Replace]\P{Action}
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+
+	;* FORMAT ITALICS, BOLD, UNDERLINES, AND COMBINATIONS THEROEF.
+		; NOTE: smaller-scale local formats such as italics, bold etc. are done before all the other broader styles (e.g. Action, Scene Slug etc.) are applied, they can be mucked up by the broader style--for example, italics applied to one word will instead be applied to an entire line, somehow. Doing smaller local formats last assures they are preserved, and works in harmony with all other formats as intended.
+		;Format all text surrounded with _underscore marks_ as italic text (and remove the surrounding asterisks):
+	[Find]_([^_]*)_
+	[Replace]\A{CharUnderline=1}\1
+	[Parameters]   MsgOff  Regular  PreserveCapital  
+	[Command] ReplaceAll
+		;Format all text surrounded with ***triple-asterisks*** as bold-italic text (and remove the surrounding triple-asterisks):
+	[Find]\*{3}([^*]*)\*{3}
+	[Replace]\A{CharPosture=1}\C{Strong Emphasis}\1
+	[Parameters]   MsgOff  Regular  PreserveCapital  
+	[Command] ReplaceAll
+		;Format all text surrounded with **double-asterisks** as bold text (and remove the surrounding double-asterisks):
+	[Find]\*{2}([^*]*)\*{2}
+	[Replace]\C{Strong Emphasis}\1
+	[Parameters]   MsgOff  Regular  PreserveCapital  
+	[Command] ReplaceAll
+		;Format all text surrounded with *asterisks* as italic text (and remove the surrounding asterisks):
+	[Find]\*{1}([^*]*)\*{1}
+	[Replace]\A{CharPosture=1}\1
+	[Parameters]   MsgOff  Regular  PreserveCapital  
+	[Command] ReplaceAll
+		;Manual page breaks: Insert manual page break before === markup, then delete the === markup.
+	[Find]===
+	[Replace]\m
+	[Parameters]   MsgOff  Regular  
+	[Command] ReplaceAll
+	[Find]===
+	[Replace]
+	[Parameters]   MsgOff  Regular  
+	[Command] ReplaceAll
+	;* END FORMATING ITALICS, BOLD, UNDERLINES, AND COMBINATIONS THEROEF.
+
+; END CONVERSION OF FOUNTAIN TO SCREENPLAY VIA DOCUMENT STYLES
+
+	[Name] Text [All]  Fountain->screen step 2: delete all blank lines
+	[Find]^$
+	[Replace]
+	[Parameters]   MsgOff  Regular
+	[Command]ReplaceAll
+
+
+[Name] Text [All]  Fountain->screen step 2 alt.: format blank lines
+		; Change all empty lines to action:
+			; First mark them, because if the regex engine search-replaces a carriage return it borks the formatting.
+	[Find]^$
+	[Replace]~~_~~\p
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+			; Format them as action with TRICKSY trick!
+	[Find](~~_~~)
+	[Replace]\P{Action}\2
+	[Parameters]   MsgOff  Regular
+	[Command] ReplaceAll
+
+; separator
+[Name] 
+; ==== END CUSTOM BATCH ADDITIONS (fountain to screenplay ====
+
