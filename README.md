@@ -8,8 +8,13 @@ That document will also walk you through how to install and use this toolset.
 
 This toolset also makes it relatively easy to create ebooks ready for any electronic book platform or distribution service, sourced from fountain text documents.
 
-One additional (and not the least) feature of this toolset is to two custom, free, open-license Courier variants, Courier Mega RS (Rounded Square Slab) and SS (Square Slab) which you may like better than many others (or not). Usable exports of the fonts are included in this distribution; the development archive for those fonts is at:
+You may also wish to have a look at two custom, free, open-license Courier variants, Courier Mega RS (Rounded Square Slab) and SS (Square Slab), which were developed in conjunction with this toolset.
+
+The development repository of those fonts is at:
 https://github.com/r-alex-hall/CourierMegaFont
+
+Releases of that font family are at:
+http://fountainlibreofficetools.sourceforge.net
 
 Finally, the provided batches fix up common screenwriting typographical errors and problems as part of formatting to screenplay.
 
@@ -58,8 +63,11 @@ You're welcome :)
 08/12/2014 12:50:00 AM -Richard Alexander Hall
 http://www.earthbound.io/contact
 
+
 VERSION HISTORY
 
+08/18/2014 05:07:23 PM BUG FIX RELEASE
+Fixed: some elements did not inherit font styles from the default screenplay style (e.g. transitions or scenes could be bold after changing the default font, where they should be regular, if the default font is regular). Fixed by going into the properties of each element style, on the font tab, and clicking "standard," then "apply."
 
 08/12/2014 12:50:15 AM INITIAL RELEASE
 Bada-bing! :) But the fonts in this release are alpha-quality, with only two weights provided--what I regard as my preferred "regular" and also a black variant for each mentioned family. ALSO, importantly there are not (in this release) any italic, bold, or bold italic variants--so that disappointingly, sometimes software makes no visual distinction between the regular and a faked bold for these. I'm actually happy enough with Courier Prime. Almost. It's too fat and roundy. Can you see why I might want to be an amateur font designer, at least? :) But Courier Prime did great stuff with their approach to more legible italics. AND my template and these documents use it at initial release of this. The font dev sources I provide are to spur anyone else who may have interest. But I may work them up further myself.
