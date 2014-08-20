@@ -6,6 +6,9 @@ Documentaiton.odt / .pdf
 
 That document will also walk you through how to install and use this toolset.
 
+Regular releases of this toolset are also available at:
+https://sourceforge.net/projects/fountainlibreofficetools/
+
 This toolset also makes it relatively easy to create ebooks ready for any electronic book platform or distribution service, sourced from fountain text documents.
 
 You may also wish to have a look at two custom, free, open-license Courier variants, Courier Mega RS (Rounded Square Slab) and SS (Square Slab), which were developed in conjunction with this toolset.
