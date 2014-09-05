@@ -194,6 +194,13 @@
 
 ; END CONVERSION OF FOUNTAIN TO SCREENPLAY VIA DOCUMENT STYLES
 
+; JOIN ERRONEOUSLY NEWLINE-BROKEN PARAGRAPHS (any place there's a lowercase letter, period, or comma, then a new paragraph, then any other character)
+	[Name] Text [All]  Join broken paragraphs (SLOW, experimental)
+	[Find]([a-z.,“”"':;!?])\p([A-Za-z\s])
+	[Replace]\1 \2
+	[Parameters]   MsgOff  MatchCase  Regular
+	[Command] ReplaceAll
+
 	[Name] Text [All]  Fountain->screen step 2: delete all blank lines
 	[Find]^$
 	[Replace]
