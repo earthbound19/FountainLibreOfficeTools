@@ -71,9 +71,6 @@ VERSION HISTORY
 09/05/2014 05:53:56 PM
 Commit experimental tweak batch to conjoin improperly broken (e.g. from HTML) paragraphs. Include newest CourierMega RS/SS font archive in sources.
 
-2014-08-30__04.54.04_PM
-Add release .7z format archive of Courier Mega fonts, tweak README.md accordingly.
-
 08/18/2014 05:07:23 PM BUG FIX RELEASE
 Fixed: some elements did not inherit font styles from the default screenplay style (e.g. transitions or scenes could be bold after changing the default font, where they should be regular, if the default font is regular). Fixed by going into the properties of each element style, on the font tab, and clicking "standard," then "apply."
 
