@@ -65,10 +65,9 @@ http://www.earthbound.io/contact
 VERSION HISTORY
 
 09/05/2014 05:53:56 PM
-Commit experimental tweak batch to conjoin improperly broken (e.g. from HTML) paragraphs.
+Commit experimental tweak batch to conjoin improperly broken (e.g. from HTML) paragraphs. Edit outdated info out of version history (re included font--it's not included anymore, but linked to).
 
 08/18/2014 05:07:23 PM BUG FIX RELEASE
 Fixed: some elements did not inherit font styles from the default screenplay style (e.g. transitions or scenes could be bold after changing the default font, where they should be regular, if the default font is regular). Fixed by going into the properties of each element style, on the font tab, and clicking "standard," then "apply."
 
 08/12/2014 12:50:15 AM INITIAL RELEASE
-Bada-bing! :) But the fonts in this release are alpha-quality, with only two weights provided--what I regard as my preferred "regular" and also a black variant for each mentioned family. ALSO, importantly there are not (in this release) any italic, bold, or bold italic variants--so that disappointingly, sometimes software makes no visual distinction between the regular and a faked bold for these. I'm actually happy enough with Courier Prime. Almost. It's too fat and roundy. Can you see why I might want to be an amateur font designer, at least? :) But Courier Prime did great stuff with their approach to more legible italics. AND my template and these documents use it at initial release of this. The font dev sources I provide are to spur anyone else who may have interest. But I may work them up further myself.
