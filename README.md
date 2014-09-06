@@ -41,16 +41,12 @@ This is not a film production replacement for professional screen layout softwar
 
 THIS TOOLSET CONTAINS:
 
-	1) "LibreOffice_ScreenplayTemplate_v1.3.4.2 (standard).odt":
-	An OpenOffice/LibreOffice template with styles to easily format plain text documents as proper screenplays (industry-standard complaint). Yes, there's another template out there already that does this. This one is better because it gets more "bang for the buck" with space: it very closely follows the formatting and layout "cheats" of Movie Magic Screenwriter, which gets more words on a page with no one the wiser. (My apologies to Final Draft fans: I simply haven't examined the thing. Much.)
-	2) "AltSearchScript Fountain Batch 1.2.txt":
-	Source code which can easily be copied (see documentation.pdf) into the batch source file of one Alt.Search-Replace LibreOffice extension, to allow batch conversion of fountain text to a properly formatted screenplay (by way of the provided document template with screenplay styles).
-	3) "libreOfficeExtension_AltSearch-1.4.oxt":
-	A copy of said LibreOffice extension for you to install (you may find the same or a newer version of the extension with an internet search for "LibreOffice Alt.Search-Replace extension" (which is, like LibreOffice itself, freely sourced and licensed).
-	4) In the /fonts folder:
-	Copies of fonts developed by me to solve problems described at the repository referenced earlier in this document.
+* "LibreOffice_ScreenplayTemplate_v1.3.4.2 (standard).odt":
+* An OpenOffice/LibreOffice template with styles to easily format plain text documents as proper screenplays (industry-standard complaint). Yes, there's another template out there already that does this. This one is better because it gets more "bang for the buck" with space: it very closely follows the formatting and layout "cheats" of Movie Magic Screenwriter, which gets more words on a page with no one the wiser. (My apologies to Final Draft fans: I simply haven't examined the thing. Much.)
+* "AltSearchScript Fountain Batch 1.2.txt," which is source code than can easily be copied (see documentation.pdf) into the batch source file of one Alt.Search-Replace LibreOffice extension, to allow batch conversion of fountain text to a properly formatted screenplay (by way of the provided document template with screenplay styles).
+* "libreOfficeExtension_AltSearch-1.4.oxt," which is a copy of said LibreOffice extension for you to install (you may find the same or a newer version of the extension with an internet search for "LibreOffice Alt.Search-Replace extension" (which is, like LibreOffice itself, freely sourced and licensed).
 
-	Last but not least, this toolset is freely sourced (GNU GPL v3 or later) and platform-independent; anywhere that you can install LibreOffice, you can install this toolset, and you may also freely adapt/redistribute this toolset for your own purposes.
+Last but not least, this toolset is freely sourced (GNU GPL v3 or later) and platform-independent; anywhere that you can install LibreOffice, you can install this toolset, and you may also freely adapt/redistribute this toolset for your own purposes.
 
 MORE EXPLANATION
 Problems this toolset solves:
