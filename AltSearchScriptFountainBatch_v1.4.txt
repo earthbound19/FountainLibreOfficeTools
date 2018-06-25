@@ -201,14 +201,14 @@
 	[Parameters]   MsgOff  MatchCase  Regular
 	[Command] ReplaceAll
 
-	[Name] Text [All]  Fountain->screen step 2: delete all blank lines
+	[Name] Text [All]  Fountain->screen step 2: screenplay delete all blank lines
 	[Find]^$
 	[Replace]
 	[Parameters]   MsgOff  Regular
 	[Command]ReplaceAll
 
 
-[Name] Text [All]  Fountain->screen step 2 alt.: format blank lines
+[Name] Text [All]  Fountain->screen step 2 alt.: eBook format blank lines
 		; Change all empty lines to action:
 			; First mark them, because if the regex engine search-replaces a carriage return it borks the formatting.
 	[Find]^$
