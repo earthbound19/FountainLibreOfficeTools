@@ -23,6 +23,9 @@ This toolset is suitable for spec writing, but not production. When you get into
 - `AltSearchScript Fountain Batch 1.x.txt,` is batch source code for the the Alt.Search-Replace LibreOffice extension which searches for fountain regex patterns and applies the screen format document styles of the screenplay template to them. See `documentation.pdf` for instructions.
 - `libreOfficeExtension_AltSearch-1.4.oxt` is a copy of said LibreOffice extension for you to install.
 
+## To do
+Adapt documentation to markdown with source images in repo, ditch cumbersome .odt / .pdf
+
 ## Developer notes
 - SOLVED PROBLEM: there are several applications which support fountain for import, conversion, and/or export to and from various formats, but none of them have consistently bridged well from Fountain to Movie Magic Screenwriter, that I have tried. Moreover, they have inconsistently recognized text imported or copied from any Open Document Text (such as you can create in Libre Office), or Microsoft Word text either, for that matter. It's *possible* they may import better from .odt docuements provided by this toolset.
 - SOLVED PROBLEM: there wasn't anything "on the market" (that I've found) which easily bridges fountain (and for that matter screenplays in general) to ebooks. This toolset solves that problem gracefully and with relatively little fuss.
